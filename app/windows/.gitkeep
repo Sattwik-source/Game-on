@@ -1,0 +1,2 @@
+Run: flutter create --platforms=windows .
+This generates the full runner project here.
