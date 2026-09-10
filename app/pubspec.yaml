@@ -15,6 +15,7 @@ dependencies:
 
   # Networking
   dio: ^5.4.3+1
+  http: ^1.2.0
 
   # Google OAuth + Drive
   google_sign_in: ^6.2.1

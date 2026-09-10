@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:dio/dio.dart';
 import '../constants/api_endpoints.dart';
 import '../models/user.dart';
 import 'api_client.dart';

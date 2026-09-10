@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import '../core/constants/api_endpoints.dart';
 import '../core/models/backup.dart';
 import '../core/services/api_client.dart';
+import '../core/services/compress_service.dart';
 import '../core/services/crypto_service.dart';
 import '../core/services/drive_service.dart';
 
@@ -47,13 +47,14 @@ class BackupProvider extends ChangeNotifier {
       final file = File(savePath);
       final rawBytes = await file.readAsBytes();
 
-      // NOTE: compression step (zstd via package:archive) happens here
-      // in the full implementation — omitted for brevity in this stub.
-      final compressed = Uint8List.fromList(rawBytes);
+      // Compress the save file
+      final compressed = CompressService.instance.compress(rawBytes);
 
+      // Encrypt the compressed data
       final encrypted = await CryptoService.instance.encrypt(compressed, userId);
       final checksum = CryptoService.instance.checksum(rawBytes);
 
+      // Upload to Google Drive
       final fileName = p.basename(savePath);
       final driveFileId = await DriveService.instance.uploadFile(
         gameSlug: gameSlug,
@@ -61,6 +62,7 @@ class BackupProvider extends ChangeNotifier {
         data: encrypted,
       );
 
+      // Record metadata in backend
       await ApiClient.instance.post(ApiConfig.backups, data: {
         'gameId': gameId,
         'driveFileId': driveFileId,
@@ -88,13 +90,16 @@ class BackupProvider extends ChangeNotifier {
     final response = await ApiClient.instance.get(ApiConfig.backup(backupId));
     final backup = Backup.fromJson(response.data as Map<String, dynamic>);
 
+    // Download encrypted backup from Drive
     final encrypted = await DriveService.instance.downloadFile(backup.driveFileId);
+
+    // Decrypt
     final compressed = await CryptoService.instance.decrypt(encrypted, userId);
 
-    // NOTE: decompression step (zstd) happens here in the full
-    // implementation — omitted for brevity in this stub.
-    final plaintext = compressed;
+    // Decompress back to original
+    final plaintext = CompressService.instance.decompress(compressed);
 
+    // Write to disk
     await File(savePath).writeAsBytes(plaintext);
   }
 

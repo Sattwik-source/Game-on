@@ -1,7 +1,8 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=C:\flutter_windows_3.41.4-stable\flutter"
-export "FLUTTER_APPLICATION_PATH=E:\gameon-flutter\app"
+export "FLUTTER_APPLICATION_PATH=E:\gameon\app"
+export "FLUTTER_FRAMEWORK_SWIFT_PACKAGE_PATH=E:\gameon\app\macos\Flutter\ephemeral\Packages\.packages\FlutterFramework"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=0.1.0"
