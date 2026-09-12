@@ -19,7 +19,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<AuthProvider>().user;
+    final auth = context.watch<AuthProvider>();
+    final user = auth.user;
     final quota = context.watch<BackupProvider>().driveQuota;
 
     return SingleChildScrollView(
@@ -36,71 +37,126 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _SettingsCard(
               title: 'Google Drive',
               children: [
-                Row(
-                  children: [
-                    const Text('☁️', style: TextStyle(fontSize: 20)),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                if (auth.isAuthenticated)
+                  // Connected state
+                  Column(
+                    children: [
+                      Row(
                         children: [
-                          const Text('Connected', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.text)),
-                          Text(user?.email ?? '', style: const TextStyle(fontSize: 11, color: AppColors.muted)),
+                          const Text('☁️', style: TextStyle(fontSize: 20)),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('Connected', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.text)),
+                                Text(user?.email ?? '', style: const TextStyle(fontSize: 11, color: AppColors.muted)),
+                              ],
+                            ),
+                          ),
+                          const _StatusPill(text: 'Active', color: AppColors.success),
                         ],
                       ),
-                    ),
-                    _StatusPill(text: 'Active', color: AppColors.green),
-                  ],
-                ),
-                if (quota != null) ...[
-                  const SizedBox(height: 12),
-                  LinearProgressIndicator(
-                    value: quota['total'] != null && quota['total']! > 0
-                        ? quota['used']! / quota['total']!
-                        : 0,
-                    backgroundColor: AppColors.surface2,
-                    valueColor: const AlwaysStoppedAnimation(AppColors.purple2),
-                    minHeight: 6,
-                    borderRadius: BorderRadius.circular(3),
+                      if (quota != null) ...[
+                        const SizedBox(height: 12),
+                        LinearProgressIndicator(
+                          value: quota['total'] != null && quota['total']! > 0
+                              ? quota['used']! / quota['total']!
+                              : 0,
+                          backgroundColor: AppColors.surface2,
+                          valueColor: const AlwaysStoppedAnimation(AppColors.purple2),
+                          minHeight: 6,
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                      ],
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () => auth.signOut(),
+                          child: const Text('Disconnect Google Drive'),
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  // Not connected state
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Text('☁️', style: TextStyle(fontSize: 20)),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('Not connected', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.text)),
+                                const Text('Sign in to enable backups', style: TextStyle(fontSize: 11, color: AppColors.muted)),
+                              ],
+                            ),
+                          ),
+                          const _StatusPill(text: 'Offline', color: AppColors.muted),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: auth.loading ? null : () => auth.signInWithGoogle(),
+                          icon: auth.loading
+                              ? const SizedBox(
+                                  width: 14,
+                                  height: 14,
+                                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                )
+                              : const Icon(Icons.login, size: 16),
+                          label: Text(auth.loading ? 'Connecting…' : 'Sign in with Google'),
+                        ),
+                      ),
+                    ],
                   ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            if (auth.isAuthenticated)
+              Column(
+                children: [
+                  _SettingsCard(
+                    title: 'Sync Behaviour',
+                    children: [
+                      Row(
+                        children: [
+                          const Expanded(child: Text('Auto-sync interval', style: TextStyle(fontSize: 13, color: AppColors.text))),
+                          Text('${_syncInterval.round()} min', style: const TextStyle(fontSize: 12, color: AppColors.muted)),
+                        ],
+                      ),
+                      Slider(
+                        value: _syncInterval,
+                        min: 1,
+                        max: 30,
+                        divisions: 29,
+                        activeColor: AppColors.purple2,
+                        inactiveColor: AppColors.surface2,
+                        onChanged: (v) => setState(() => _syncInterval = v),
+                      ),
+                      _ToggleRow(
+                        label: 'Start GameOn on Windows login',
+                        value: _startOnLogin,
+                        onChanged: (v) => setState(() => _startOnLogin = v),
+                      ),
+                      _ToggleRow(
+                        label: 'Minimize to tray on close',
+                        value: _minimizeToTray,
+                        onChanged: (v) => setState(() => _minimizeToTray = v),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
                 ],
-              ],
-            ),
-
-            const SizedBox(height: 16),
-
-            _SettingsCard(
-              title: 'Sync Behaviour',
-              children: [
-                Row(
-                  children: [
-                    const Expanded(child: Text('Auto-sync interval', style: TextStyle(fontSize: 13, color: AppColors.text))),
-                    Text('${_syncInterval.round()} min', style: const TextStyle(fontSize: 12, color: AppColors.muted)),
-                  ],
-                ),
-                Slider(
-                  value: _syncInterval,
-                  min: 1,
-                  max: 30,
-                  divisions: 29,
-                  activeColor: AppColors.purple2,
-                  inactiveColor: AppColors.surface2,
-                  onChanged: (v) => setState(() => _syncInterval = v),
-                ),
-                _ToggleRow(
-                  label: 'Start GameOn on Windows login',
-                  value: _startOnLogin,
-                  onChanged: (v) => setState(() => _startOnLogin = v),
-                ),
-                _ToggleRow(
-                  label: 'Minimize to tray on close',
-                  value: _minimizeToTray,
-                  onChanged: (v) => setState(() => _minimizeToTray = v),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 16),
+              ),
 
             _SettingsCard(
               title: 'Security',
@@ -112,12 +168,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   style: TextStyle(fontSize: 12, color: AppColors.muted, height: 1.6),
                 ),
               ],
-            ),
-
-            const SizedBox(height: 24),
-            OutlinedButton(
-              onPressed: () => context.read<AuthProvider>().signOut(),
-              child: const Text('Sign out'),
             ),
           ],
         ),

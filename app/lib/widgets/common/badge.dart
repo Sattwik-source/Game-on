@@ -10,16 +10,16 @@ class StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (state) {
-      SyncState.syncing  => (AppColors.amber, 'Syncing'),
-      SyncState.watching => (AppColors.green, 'Watching'),
-      SyncState.error    => (AppColors.red, 'Error'),
+      SyncState.syncing  => (AppColors.secondary, 'Syncing'),
+      SyncState.watching => (AppColors.success, 'Watching'),
+      SyncState.error    => (AppColors.danger, 'Error'),
       SyncState.idle      => (AppColors.muted, 'Idle'),
     };
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: color)),

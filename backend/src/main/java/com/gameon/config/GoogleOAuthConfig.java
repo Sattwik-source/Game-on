@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -14,10 +15,10 @@ import java.util.List;
 @Configuration
 public class GoogleOAuthConfig {
 
-    @Value("${gameon.google.client-id}")
+    @Value("${gameon.google.client-id:}")
     private String clientId;
 
-    @Value("${gameon.google.client-secret}")
+    @Value("${gameon.google.client-secret:}")
     private String clientSecret;
 
     private static final List<String> SCOPES = List.of(
@@ -26,6 +27,23 @@ public class GoogleOAuthConfig {
             "profile",
             "https://www.googleapis.com/auth/drive.file"
     );
+
+    @PostConstruct
+    public void init() {
+        // Load from environment variables if properties are empty
+        if (clientId == null || clientId.isEmpty()) {
+            String envClientId = System.getenv("GOOGLE_CLIENT_ID");
+            if (envClientId != null && !envClientId.isEmpty()) {
+                this.clientId = envClientId;
+            }
+        }
+        if (clientSecret == null || clientSecret.isEmpty()) {
+            String envClientSecret = System.getenv("GOOGLE_CLIENT_SECRET");
+            if (envClientSecret != null && !envClientSecret.isEmpty()) {
+                this.clientSecret = envClientSecret;
+            }
+        }
+    }
 
     @Bean
     public GoogleAuthorizationCodeFlow googleAuthorizationCodeFlow()

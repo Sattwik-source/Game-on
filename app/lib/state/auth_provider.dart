@@ -4,18 +4,24 @@ import '../core/services/auth_service.dart';
 
 /// Holds the current authentication state and exposes actions to
 /// [Consumer]/[context.watch] widgets throughout the app.
+///
+/// Auth is now optional on app boot — users can browse games without signing in.
+/// They only authenticate when they try to backup/restore saves.
 class AuthProvider extends ChangeNotifier {
   User? _user;
   bool _loading = false;
   String? _error;
+  bool _hydrationAttempted = false;
 
   User? get user => _user;
   bool get loading => _loading;
   String? get error => _error;
   bool get isAuthenticated => _user != null;
+  bool get hydrationAttempted => _hydrationAttempted;
 
   /// Called once on app boot — checks the OS keychain for an existing
-  /// session before showing the login screen.
+  /// session. If found, restores it silently. If not found, allows the app
+  /// to proceed without auth (lazy auth pattern).
   Future<void> hydrate() async {
     _setLoading(true);
     try {
@@ -23,6 +29,7 @@ class AuthProvider extends ChangeNotifier {
     } catch (_) {
       _user = null;
     } finally {
+      _hydrationAttempted = true;
       _setLoading(false);
     }
   }

@@ -1,0 +1,22 @@
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Backend database
+backend/data/*.mv.db
+backend/data/*.trace.db
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/

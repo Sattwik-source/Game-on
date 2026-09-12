@@ -27,7 +27,7 @@ CREATE TABLE games (
     name              VARCHAR(255) NOT NULL,
     slug              VARCHAR(255) NOT NULL,
     exe_path          TEXT,
-    save_paths        ARCHAR(2000),
+    save_paths        VARCHAR(2000),
     drive_folder_id   VARCHAR(255),
     platform          VARCHAR(20) DEFAULT 'pc',
     is_active         BOOLEAN DEFAULT TRUE,

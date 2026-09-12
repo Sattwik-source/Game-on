@@ -108,22 +108,23 @@ class _BackupRow extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
-              // NOTE: In a full implementation, you'd prompt the user to select
-              // the target save path. For now, use the first save path from the game.
-              // This is a placeholder — real restore would need game context.
               try {
                 await context.read<BackupProvider>().restore(
                       backupId: backup.id,
-                      savePath: backup.filePath,
+                      savePath: backup.fileName,
                       userId: '', // TODO: get from AuthProvider
                     );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Backup restored successfully!')),
-                );
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Backup restored successfully!')),
+                  );
+                }
               } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Restore failed: $e')),
-                );
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Restore failed: $e')),
+                  );
+                }
               }
             },
             child: const Text('Restore'),

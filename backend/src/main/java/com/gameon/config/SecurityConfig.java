@@ -21,7 +21,9 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
-    @Value("${gameon.cors.allowed-origins}")
+    @Value("${gameon.cors.allowed-origins:http://localhost:3000,http://localhost:8080}")
+    private String corsAllowedOriginsStr;
+
     private List<String> corsAllowedOrigins;
 
     public SecurityConfig(JwtAuthFilter jwtAuthFilter) {

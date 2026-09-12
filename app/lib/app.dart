@@ -30,8 +30,10 @@ class GameOnApp extends StatelessWidget {
   }
 }
 
-/// Decides whether to show the login screen or the full app shell,
-/// based on [AuthProvider]'s hydrated session state.
+/// Decides whether to show the login screen or the full app shell.
+/// - If user has a previous session, hydrate it in the background
+/// - Otherwise, allow browsing the app without auth (lazy auth)
+/// - Auth is only required when accessing backup/restore features
 class _RootGate extends StatelessWidget {
   const _RootGate();
 
@@ -39,7 +41,8 @@ class _RootGate extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
 
-    if (auth.loading && auth.user == null) {
+    // Show loading only on first hydration attempt, not indefinitely
+    if (auth.loading && auth.user == null && !auth.hydrationAttempted) {
       return const Scaffold(
         body: Center(
           child: Column(
@@ -54,6 +57,8 @@ class _RootGate extends StatelessWidget {
       );
     }
 
-    return auth.isAuthenticated ? const AppShell() : const LoginScreen();
+    // Always show AppShell (user can browse without auth)
+    // Auth is only required when they try to backup/restore
+    return const AppShell();
   }
 }

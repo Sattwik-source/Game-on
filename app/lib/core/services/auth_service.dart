@@ -101,7 +101,8 @@ class AuthService {
 
   Future<void> _openInBrowser(String url) async {
     if (Platform.isWindows) {
-      await Process.run('cmd', ['/c', 'start', '', url]);
+      // Use rundll32 to open URLs on Windows to avoid cmd.exe parsing issues
+      await Process.run('rundll32', ['url.dll,FileProtocolHandler', url]);
     } else if (Platform.isMacOS) {
       await Process.run('open', [url]);
     } else if (Platform.isLinux) {

@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: AppColors.purple,
+                    gradient: AppColors.orangeGradient,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(Icons.sports_esports, color: Colors.white, size: 32),
@@ -68,11 +68,11 @@ class LoginScreen extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
                     decoration: BoxDecoration(
-                      color: AppColors.red.withOpacity(0.12),
-                      border: Border.all(color: AppColors.red),
+                      color: AppColors.danger.withValues(alpha: 0.12),
+                      border: Border.all(color: AppColors.danger),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(auth.error!, style: const TextStyle(color: AppColors.red, fontSize: 12)),
+                    child: Text(auth.error!, style: const TextStyle(color: AppColors.danger, fontSize: 12)),
                   ),
                   const SizedBox(height: 16),
                 ],

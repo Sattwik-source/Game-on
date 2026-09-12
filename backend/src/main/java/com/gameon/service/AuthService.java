@@ -60,6 +60,7 @@ public class AuthService {
         return googleFlow.newAuthorizationUrl()
                 .setRedirectUri(redirectUri)
                 .set("prompt", "consent")
+                .set("response_type", "code")
                 .build();
     }
 

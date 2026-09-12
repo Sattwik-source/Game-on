@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../constants/api_endpoints.dart';
 import '../models/user.dart';
 import 'api_client.dart';
@@ -101,12 +102,10 @@ class AuthService {
   }
 
   Future<void> _openInBrowser(String url) async {
-    if (Platform.isWindows) {
-      await Process.run('cmd', ['/c', 'start', '', url]);
-    } else if (Platform.isMacOS) {
-      await Process.run('open', [url]);
-    } else if (Platform.isLinux) {
-      await Process.run('xdg-open', [url]);
+    final uri = Uri.parse(url);
+    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!launched) {
+      throw Exception('Could not open browser for $url');
     }
   }
 

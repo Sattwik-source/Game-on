@@ -16,6 +16,9 @@ dependencies:
   # Networking
   dio: ^5.4.3+1
 
+  # Opening URLs in the system browser (loopback OAuth flow)
+  url_launcher: ^6.3.1
+
   # Google OAuth + Drive
   google_sign_in: ^6.2.1
   googleapis: ^13.2.0

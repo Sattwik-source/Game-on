@@ -3,8 +3,11 @@ package com.gameon.model;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "games")
@@ -26,8 +29,8 @@ public class Game {
     @Column(name = "exe_path")
     private String exePath;
 
-    @Column(name = "save_paths", columnDefinition = "TEXT[]")
-    private List<String> savePaths;
+    @Column(name = "save_paths", length = 2000)
+    private String savePaths;
 
     @Column(name = "drive_folder_id")
     private String driveFolderId;
@@ -64,8 +67,20 @@ public class Game {
     public String getExePath() { return exePath; }
     public void setExePath(String exePath) { this.exePath = exePath; }
 
-    public List<String> getSavePaths() { return savePaths; }
-    public void setSavePaths(List<String> savePaths) { this.savePaths = savePaths; }
+    public List<String> getSavePaths() {
+        if (savePaths == null || savePaths.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return Arrays.asList(savePaths.split("\\|"));
+    }
+
+    public void setSavePaths(List<String> paths) {
+        if (paths == null || paths.isEmpty()) {
+            this.savePaths = "";
+        } else {
+            this.savePaths = String.join("|", paths);
+        }
+    }
 
     public String getDriveFolderId() { return driveFolderId; }
     public void setDriveFolderId(String driveFolderId) { this.driveFolderId = driveFolderId; }

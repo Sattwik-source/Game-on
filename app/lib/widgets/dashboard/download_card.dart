@@ -35,7 +35,7 @@ class _EmptyQueueHint extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: const [
-          Text('✓', style: TextStyle(fontSize: 22, color: AppColors.green)),
+          Text('✓', style: TextStyle(fontSize: 22, color: AppColors.success)),
           SizedBox(height: 8),
           Text('All games backed up', style: TextStyle(fontSize: 12, color: AppColors.muted)),
         ],
