@@ -54,18 +54,18 @@ class _Logo extends StatelessWidget {
           width: 32,
           height: 32,
           decoration: BoxDecoration(
-            gradient: AppColors.orangeGradient,
+            color: AppColors.primary,
             borderRadius: BorderRadius.circular(8),
           ),
           child: const Icon(Icons.sports_esports, size: 16, color: Colors.white),
         ),
         const SizedBox(width: 10),
         const Text(
-          'GAMEON',
+          'GameOn',
           style: TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w900,
-            letterSpacing: 0.5,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0,
             color: AppColors.text,
           ),
         ),
@@ -95,13 +95,13 @@ class _SearchBarState extends State<_SearchBar> {
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: _focused ? AppColors.primary : AppColors.border,
-            width: _focused ? 1.5 : 1,
+            width: 1,
           ),
           boxShadow: _focused
               ? [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.2),
-                    blurRadius: 12,
+                    color: AppColors.primary.withValues(alpha: 0.1),
+                    blurRadius: 8,
                     spreadRadius: 0,
                   ),
                 ]
@@ -289,8 +289,8 @@ class _UserMenuButtonState extends State<_UserMenuButton> {
                 height: 28,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: AppColors.orangeGradient,
-                  border: Border.all(color: AppColors.primary, width: 2),
+                  color: AppColors.primary,
+                  border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 2),
                 ),
                 child: const Center(
                   child: Text(

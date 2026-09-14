@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/colors.dart';
 
-/// Enhanced card with hover lift effect and glow
+/// Clean card with subtle hover effect and shadow
 class EnhancedCard extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
-  final Color? glowColor;
+  final Color? accentColor;
   final EdgeInsets? padding;
   final double? width;
   final double? height;
@@ -14,7 +14,7 @@ class EnhancedCard extends StatefulWidget {
     super.key,
     required this.child,
     this.onTap,
-    this.glowColor,
+    this.accentColor,
     this.padding,
     this.width,
     this.height,
@@ -29,40 +29,36 @@ class _EnhancedCardState extends State<EnhancedCard> {
 
   @override
   Widget build(BuildContext context) {
-    final glowColor = widget.glowColor ?? AppColors.primary;
-
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOut,
-        transform: Matrix4.translationValues(0, _hovered ? -4 : 0, 0),
-        width: widget.width,
-        height: widget.height,
-        child: GestureDetector(
-          onTap: widget.onTap,
-          child: Container(
-            padding: widget.padding ?? const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: _hovered ? AppColors.surfaceHover : AppColors.surface,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: _hovered ? glowColor : AppColors.border,
-                width: _hovered ? 1.5 : 1,
-              ),
-              boxShadow: _hovered
-                  ? [
-                      BoxShadow(
-                        color: glowColor.withOpacity(0.3),
-                        blurRadius: 16,
-                        spreadRadius: 0,
-                      ),
-                    ]
-                  : null,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          width: widget.width,
+          height: widget.height,
+          padding: widget.padding ?? const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: _hovered ? AppColors.surfaceHover : AppColors.surface,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: _hovered ? (widget.accentColor ?? AppColors.borderHover) : AppColors.border,
+              width: 1,
             ),
-            child: widget.child,
+            boxShadow: _hovered
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 8,
+                      spreadRadius: 0,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
           ),
+          child: widget.child,
         ),
       ),
     );

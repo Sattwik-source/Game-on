@@ -71,10 +71,11 @@ class _GoogleDrivePrompt extends StatelessWidget {
               width: 56,
               height: 56,
               decoration: BoxDecoration(
-                color: AppColors.purpleGlow,
+                color: AppColors.primary.withValues(alpha: 0.1),
+                border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(Icons.cloud_upload_outlined, color: AppColors.purple2, size: 28),
+              child: const Icon(Icons.cloud_upload_outlined, color: AppColors.primary, size: 28),
             ),
             const SizedBox(height: 16),
             const Text(

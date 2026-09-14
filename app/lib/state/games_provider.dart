@@ -41,6 +41,10 @@ class GamesProvider extends ChangeNotifier {
       if (_selectedGameId == null && _games.isNotEmpty) {
         _selectedGameId = _games.first.id;
       }
+    } catch (e) {
+      // Gracefully handle auth errors — user can still detect/add games
+      print('⚠️ fetchGames error (likely unauthenticated): $e');
+      _games = [];
     } finally {
       _loading = false;
       notifyListeners();
@@ -48,17 +52,40 @@ class GamesProvider extends ChangeNotifier {
   }
 
   Future<void> addGame(Game game, {required void Function(String, String) onSaveChange}) async {
-    final response = await ApiClient.instance.post(ApiConfig.games, data: game.toJson());
-    final created = Game.fromJson(response.data as Map<String, dynamic>);
-    _games = [..._games, created];
+    try {
+      final response = await ApiClient.instance.post(ApiConfig.games, data: game.toJson());
+      final created = Game.fromJson(response.data as Map<String, dynamic>);
+      _games = [..._games, created];
 
-    FileWatcherService.instance.startWatching(
-      gameId: created.id,
-      savePaths: created.savePaths,
-      onChange: onSaveChange,
-    );
+      FileWatcherService.instance.startWatching(
+        gameId: created.id,
+        savePaths: created.savePaths,
+        onChange: onSaveChange,
+      );
 
-    notifyListeners();
+      notifyListeners();
+    } catch (e) {
+      // If not authenticated, add locally with a temporary ID
+      print('⚠️ addGame: Could not sync to backend ($e), adding locally');
+      final localId = 'local_${DateTime.now().millisecondsSinceEpoch}';
+      final localGame = Game(
+        id: localId,
+        name: game.name,
+        slug: game.slug,
+        exePath: game.exePath,
+        savePaths: game.savePaths,
+        platform: game.platform,
+      );
+      _games = [..._games, localGame];
+
+      FileWatcherService.instance.startWatching(
+        gameId: localGame.id,
+        savePaths: localGame.savePaths,
+        onChange: onSaveChange,
+      );
+
+      notifyListeners();
+    }
   }
 
   Future<void> removeGame(String id) async {
@@ -72,10 +99,18 @@ class GamesProvider extends ChangeNotifier {
   }
 
   Future<void> detectGames() async {
+    print('🔍 detectGames() called');
     _detecting = true;
     notifyListeners();
     try {
+      print('🔍 Calling GameDetectorService.detectAll()');
       _detectedCandidates = await GameDetectorService.instance.detectAll();
+      print('🔍 Detection complete: ${_detectedCandidates.length} games found');
+      for (final game in _detectedCandidates) {
+        print('  → ${game.name}: ${game.savePaths}');
+      }
+    } catch (e) {
+      print('❌ Detection error: $e');
     } finally {
       _detecting = false;
       notifyListeners();

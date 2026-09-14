@@ -9,6 +9,7 @@ import '../../screens/home_screen.dart';
 import '../../screens/library_screen.dart';
 import '../../screens/backups_screen.dart';
 import '../../screens/settings_screen.dart';
+import '../../widgets/games/add_game_modal.dart';
 
 /// Rendered once the user is authenticated. Owns the persistent
 /// TitleBar + Sidebar frame and swaps the center content based on
@@ -18,24 +19,51 @@ class AppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final route = context.watch<UiProvider>().route;
+    final ui = context.watch<UiProvider>();
 
     return Scaffold(
       backgroundColor: AppColors.bg,
-      body: Column(
+      body: Stack(
         children: [
-          const TitleBar(),
-          Expanded(
-            child: Row(
-              children: [
-                const Sidebar(),
-                Expanded(child: _routedPage(route)),
-              ],
-            ),
+          Column(
+            children: [
+              const TitleBar(),
+              Expanded(
+                child: Row(
+                  children: [
+                    const Sidebar(),
+                    Expanded(child: _routedPage(ui.route)),
+                  ],
+                ),
+              ),
+            ],
           ),
+          // Modal overlay
+          if (ui.modal != null)
+            GestureDetector(
+              onTap: ui.closeModal,
+              child: Container(
+                color: Colors.black.withOpacity(0.3),
+                child: GestureDetector(
+                  onTap: () {}, // Prevent close on modal click
+                  child: Center(
+                    child: _renderModal(ui.modal!.type),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
+  }
+
+  Widget _renderModal(String type) {
+    switch (type) {
+      case 'addGame':
+        return const AddGameModal();
+      default:
+        return const SizedBox.shrink();
+    }
   }
 
   Widget _routedPage(String route) {

@@ -22,8 +22,8 @@ class ProfileCard extends StatelessWidget {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('PROFILE OVERVIEW',
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, letterSpacing: 0.8, color: AppColors.muted)),
+                const Text('Profile Overview',
+                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, letterSpacing: 0.3, color: AppColors.muted)),
                 const SizedBox(height: 12),
                 Row(
                   children: [
@@ -32,12 +32,12 @@ class ProfileCard extends StatelessWidget {
                       height: 44,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        gradient: const LinearGradient(colors: [Color(0xFF4C1D95), AppColors.purple]),
-                        border: Border.all(color: AppColors.purple, width: 2),
+                        color: AppColors.primary,
+                        border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 2),
                       ),
                       child: Center(
                         child: Text(user?.initial ?? '?',
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.white)),
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white)),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -50,12 +50,12 @@ class ProfileCard extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: AppColors.purpleGlow,
-                            border: Border.all(color: AppColors.purple),
+                            color: AppColors.primary.withValues(alpha: 0.1),
+                            border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: const Text('⚡ LEVEL 1',
-                              style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: AppColors.purple2)),
+                          child: const Text('⚡ Level 1',
+                              style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: AppColors.primary)),
                         ),
                       ],
                     ),
@@ -68,7 +68,7 @@ class ProfileCard extends StatelessWidget {
                     value: 0.2,
                     minHeight: 4,
                     backgroundColor: AppColors.surface2,
-                    valueColor: const AlwaysStoppedAnimation(AppColors.purple2),
+                    valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -84,8 +84,8 @@ class ProfileCard extends StatelessWidget {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('GOOGLE DRIVE',
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, letterSpacing: 0.8, color: AppColors.muted)),
+                const Text('Google Drive',
+                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, letterSpacing: 0.3, color: AppColors.muted)),
                 const SizedBox(height: 12),
                 const Icon(Icons.cloud_off_outlined, size: 32, color: AppColors.muted),
                 const SizedBox(height: 10),

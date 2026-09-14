@@ -60,12 +60,14 @@ class _BackupRow extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 36, height: 36,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
-              color: AppColors.purpleGlow,
+              color: AppColors.primary.withValues(alpha: 0.1),
+              border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(Icons.inventory_2, color: AppColors.purple2, size: 16),
+            child: const Icon(Icons.inventory_2, color: AppColors.primary, size: 16),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -82,7 +84,7 @@ class _BackupRow extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => _confirmRestore(context),
-            child: const Text('Restore', style: TextStyle(fontSize: 12, color: AppColors.purple2)),
+            child: const Text('Restore', style: TextStyle(fontSize: 12, color: AppColors.primary)),
           ),
           IconButton(
             icon: const Icon(Icons.delete_outline, size: 16, color: AppColors.muted),

@@ -37,8 +37,8 @@ class AppTheme {
           foregroundColor: Colors.white,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13, letterSpacing: 0.5),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13, letterSpacing: 0.2),
           shadowColor: Colors.transparent,
         ),
       ),
@@ -89,7 +89,7 @@ class AppTheme {
         elevation: 0,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
           side: const BorderSide(color: AppColors.border, width: 1),
         ),
       ),
@@ -122,40 +122,25 @@ class AppTheme {
     );
   }
 
-  /// Helper to create button with glow effect
-  static ButtonStyle glowyButton({
-    required Color backgroundColor,
-    required Color glowColor,
-    EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-  }) {
-    return ElevatedButton.styleFrom(
-      backgroundColor: backgroundColor,
-      foregroundColor: Colors.white,
-      elevation: 0,
-      padding: padding,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      shadowColor: Colors.transparent,
-    );
-  }
-
-  /// Helper to create card with hover effect
+  /// Helper to create card with subtle hover effect
   static BoxDecoration hoverableCard({
     bool hovered = false,
-    Color glowColor = AppColors.primary,
+    Color? accentColor,
   }) {
     return BoxDecoration(
       color: hovered ? AppColors.surfaceHover : AppColors.surface,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(10),
       border: Border.all(
-        color: hovered ? glowColor : AppColors.border,
-        width: hovered ? 1.5 : 1,
+        color: hovered ? (accentColor ?? AppColors.borderHover) : AppColors.border,
+        width: 1,
       ),
       boxShadow: hovered
           ? [
               BoxShadow(
-                color: glowColor.withOpacity(0.3),
-                blurRadius: 16,
+                color: Colors.black.withOpacity(0.15),
+                blurRadius: 8,
                 spreadRadius: 0,
+                offset: const Offset(0, 2),
               ),
             ]
           : null,

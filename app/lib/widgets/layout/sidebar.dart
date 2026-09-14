@@ -93,19 +93,19 @@ class _LogoMark extends StatelessWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              gradient: AppColors.orangeGradient,
-              borderRadius: BorderRadius.circular(10),
+              color: AppColors.primary,
+              borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(Icons.sports_esports, color: Colors.white, size: 18),
           ),
           if (expanded) ...[
             const SizedBox(width: 12),
             const Text(
-              'GAMEON',
+              'GameOn',
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.5,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0,
                 color: AppColors.text,
               ),
             ),
@@ -147,15 +147,15 @@ class _SidebarItemState extends State<_SidebarItem> {
         onEnter: (_) => setState(() => _hovered = true),
         onExit: (_) => setState(() => _hovered = false),
         child: Material(
-          color: isActive ? AppColors.primary.withValues(alpha: 0.15) : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
+          color: isActive ? AppColors.primary.withValues(alpha: 0.08) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
           child: InkWell(
             onTap: widget.onTap,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             child: Container(
               height: 44,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
                 border: isActive
                     ? const Border(left: BorderSide(color: AppColors.primary, width: 3))
                     : null,
@@ -283,8 +283,8 @@ class _UserAvatar extends StatelessWidget {
             height: 32,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: AppColors.orangeGradient,
-              border: Border.all(color: AppColors.primary, width: 2),
+              color: AppColors.primary,
+              border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 2),
             ),
             child: Center(
               child: Text(

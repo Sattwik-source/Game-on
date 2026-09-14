@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Modern gaming launcher color palette for GameOn
-/// Dark base with vibrant orange, cyan, and lime accents
+/// Modern, minimalistic color palette for GameOn
+/// Clean dark base with subtle, professional accents
 class AppColors {
   AppColors._();
 
@@ -14,31 +14,31 @@ class AppColors {
   // ── Surface & Borders ────────────────────────────────────────
   static const surface   = Color(0xFF13151a);
   static const surface2  = Color(0xFF1a1d24);
-  static const surfaceHover = Color(0xFF212530);
+  static const surfaceHover = Color(0xFF1a1f27); // Subtle hover elevation
 
-  static const border    = Color(0x12FFFFFF);
-  static const border2   = Color(0x1EFFFFFF);
-  static const borderHover = Color(0x2DFFFFFF);
+  static const border    = Color(0x0DFFFFFF); // Subtle border
+  static const border2   = Color(0x14FFFFFF); // Slightly more visible
+  static const borderHover = Color(0x1FFFFFFF); // Hover border
 
-  // ── Primary Accents (Orange) ─────────────────────────────────
-  static const primary   = Color(0xFFff6b35); // Vibrant orange
-  static const primaryLight = Color(0xFFff8c5a);
-  static const primaryDark = Color(0xFFe55a24);
+  // ── Primary Accents (Dark Gray) ────────────────────────────
+  static const primary   = Color(0xFF6b7280); // Dark gray for better contrast
+  static const primaryLight = Color(0xFF9ca3af);
+  static const primaryDark = Color(0xFF4b5563);
 
-  // ── Secondary Accents (Cyan) ─────────────────────────────────
-  static const secondary = Color(0xFF00d9ff); // Vibrant cyan
-  static const secondaryLight = Color(0xFF33e3ff);
-  static const secondaryDark = Color(0xFF00a8cc);
+  // ── Secondary Accents (Sky Blue) ─────────────────────────────
+  static const secondary = Color(0xFF0ea5e9); // Sky blue (used sparingly)
+  static const secondaryLight = Color(0xFF38bdf8);
+  static const secondaryDark = Color(0xFF0284c7);
 
-  // ── Success (Lime) ───────────────────────────────────────────
-  static const success   = Color(0xFF00ff88); // Bright lime
-  static const successLight = Color(0xFF33ff99);
-  static const successDark = Color(0xFF00cc6a);
+  // ── Success (Emerald) ────────────────────────────────────────
+  static const success   = Color(0xFF10b981); // Emerald green
+  static const successLight = Color(0xFF34d399);
+  static const successDark = Color(0xFF059669);
 
   // ── Status Colors ────────────────────────────────────────────
-  static const warning   = Color(0xFFffd600); // Yellow
-  static const danger    = Color(0xFFff3366); // Red/Pink
-  static const error     = Color(0xFFEF4444); // Error red
+  static const warning   = Color(0xFFf59e0b); // Amber
+  static const danger    = Color(0xFFef4444); // Red
+  static const error     = Color(0xFFef4444); // Error red
 
   // ── Text Colors ──────────────────────────────────────────────
   static const text      = Color(0xFFF0F0FF);
@@ -46,42 +46,23 @@ class AppColors {
   static const muted     = Color(0xFF8890B0);
   static const muted2    = Color(0xFF6b7280);
 
-  // ── Legacy Purple (for transitions) ──────────────────────────
-  static const purple    = Color(0xFF7C3AED);
-  static const purple2   = Color(0xFFA855F7);
-  static const purple3   = Color(0xFFC084FC);
-  static const purpleGlow = Color(0x307C3AED);
+  // ── Neutral Gray Scale ───────────────────────────────────────
+  static const gray50    = Color(0xFFFAFAFA);
+  static const gray100   = Color(0xFFF3F4F6);
+  static const gray200   = Color(0xFFE5E7EB);
+  static const gray300   = Color(0xFFD1D5DB);
+  static const gray400   = Color(0xFF9CA3AF);
+  static const gray500   = Color(0xFF6B7280);
+  static const gray600   = Color(0xFF4B5563);
+  static const gray700   = Color(0xFF374151);
+  static const gray800   = Color(0xFF1F2937);
+  static const gray900   = Color(0xFF111827);
 
   // ── Gradients ────────────────────────────────────────────────
-  static const orangeGradient = LinearGradient(
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
-    colors: [primary, primaryLight],
-  );
-
-  static const cyanGradient = LinearGradient(
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
-    colors: [secondary, secondaryLight],
-  );
-
-  static const limeGradient = LinearGradient(
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
-    colors: [success, successLight],
-  );
-
-  static const purpleGradient = LinearGradient(
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
-    colors: [purple, purple2],
-  );
-
-  static const heroRadial = RadialGradient(
-    center: Alignment(0, 0.6),
-    radius: 1.2,
-    colors: [Color(0xFF2D1066), bg2, bg],
-    stops: [0.0, 0.6, 1.0],
+  static const heroGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF1a1f27), bg, bg2],
   );
 
   // ── Utility Methods ──────────────────────────────────────────
@@ -99,10 +80,10 @@ class AppColors {
     }
   }
 
-  /// Get glow effect for accents
-  static BoxShadow accentGlow(Color color, {double blur = 20, double spread = 10}) {
+  /// Get subtle shadow for depth (not glow)
+  static BoxShadow subtleShadow({double blur = 8, double spread = 0}) {
     return BoxShadow(
-      color: color.withOpacity(0.4),
+      color: Colors.black.withOpacity(0.2),
       blurRadius: blur,
       spreadRadius: spread,
     );

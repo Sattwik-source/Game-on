@@ -64,7 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ? quota['used']! / quota['total']!
                               : 0,
                           backgroundColor: AppColors.surface2,
-                          valueColor: const AlwaysStoppedAnimation(AppColors.purple2),
+                          valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                           minHeight: 6,
                           borderRadius: BorderRadius.circular(3),
                         ),
@@ -74,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         width: double.infinity,
                         child: OutlinedButton(
                           onPressed: () => auth.signOut(),
-                          child: const Text('Disconnect Google Drive'),
+                          child: const Text('Disconnect Google Drive', style: TextStyle(color: AppColors.text)),
                         ),
                       ),
                     ],
@@ -96,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ],
                             ),
                           ),
-                          const _StatusPill(text: 'Offline', color: AppColors.muted),
+                          const _StatusPill(text: 'Offline', color: AppColors.muted2),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -138,7 +138,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         min: 1,
                         max: 30,
                         divisions: 29,
-                        activeColor: AppColors.purple2,
+                        activeColor: AppColors.primary,
                         inactiveColor: AppColors.surface2,
                         onChanged: (v) => setState(() => _syncInterval = v),
                       ),
@@ -216,7 +216,7 @@ class _ToggleRow extends StatelessWidget {
       child: Row(
         children: [
           Expanded(child: Text(label, style: const TextStyle(fontSize: 13, color: AppColors.text))),
-          Switch(value: value, onChanged: onChanged, activeColor: AppColors.purple2),
+          Switch(value: value, onChanged: onChanged, activeColor: AppColors.primary),
         ],
       ),
     );

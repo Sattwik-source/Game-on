@@ -29,11 +29,12 @@ class FeatureBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 28, height: 28,
+                    width: 28,
+                    height: 28,
                     decoration: BoxDecoration(
-                      color: AppColors.purpleGlow,
-                      border: Border.all(color: AppColors.purple),
-                      borderRadius: BorderRadius.circular(8),
+                      color: AppColors.primary.withValues(alpha: 0.1),
+                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+                      borderRadius: BorderRadius.circular(6),
                     ),
                     child: Center(child: Text(icon, style: const TextStyle(fontSize: 13))),
                   ),
@@ -42,7 +43,7 @@ class FeatureBar extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.text)),
+                        Text(title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.text)),
                         const SizedBox(height: 2),
                         Text(desc, style: const TextStyle(fontSize: 9, color: AppColors.muted, height: 1.4)),
                       ],

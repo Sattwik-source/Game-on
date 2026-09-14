@@ -73,7 +73,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
               ),
               Expanded(
                 child: gamesProvider.loading
-                    ? const Center(child: CircularProgressIndicator(color: AppColors.purple2))
+                    ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
                     : filtered.isEmpty
                         ? const EmptyState(
                             icon: '🎮',

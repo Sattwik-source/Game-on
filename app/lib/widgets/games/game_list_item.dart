@@ -15,21 +15,22 @@ class GameListItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Material(
-        color: selected ? AppColors.purpleGlow : AppColors.surface,
-        borderRadius: BorderRadius.circular(10),
+        color: selected ? AppColors.primary.withValues(alpha: 0.08) : AppColors.surface,
+        borderRadius: BorderRadius.circular(8),
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           onTap: onTap,
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: selected ? AppColors.purple2 : AppColors.border),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: selected ? AppColors.primary : AppColors.border),
             ),
             child: Row(
               children: [
                 Container(
-                  width: 40, height: 40,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     color: AppColors.surface2,
                     borderRadius: BorderRadius.circular(8),
@@ -41,7 +42,7 @@ class GameListItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(game.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+                      Text(game.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.text)),
                       const SizedBox(height: 2),
                       Text(game.formattedSize, style: const TextStyle(fontSize: 11, color: AppColors.muted)),
                     ],

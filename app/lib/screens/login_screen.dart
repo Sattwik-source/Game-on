@@ -37,8 +37,8 @@ class LoginScreen extends StatelessWidget {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    gradient: AppColors.orangeGradient,
-                    borderRadius: BorderRadius.circular(16),
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(Icons.sports_esports, color: Colors.white, size: 32),
                 ),
